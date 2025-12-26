@@ -1,0 +1,162 @@
+{
+    "users": [
+        {
+            "_id": "user_123",
+            "email": "juan.perez@email.com",
+            "password": "hashed_password_secure",
+            "token": "jwt_token_xyz",
+            "roles": [
+                "DUEÑO",
+                "CUIDADOR",
+                "ADMINISTRADOR"
+            ],
+            "info_personal": {
+                "nombre": "Juan",
+                "apellido": "Pérez",
+                "telefono": "+59399123456",
+                "fecha_nacimiento": "1990-05-15",
+                "avatar_url": "https://bucket.s3.../avatar.jpg",
+                "direccion_principal": {
+                    "calle": "Av. Amazonas y Colón",
+                    "ciudad": "Quito"
+                }
+            },
+            "perfil_cuidador": {
+                "bio": "Amante de los perros y experto en razas grandes",
+                "portada_url": "https://...",
+                "tarifa_hora": 15.5,
+                "calificacion_promedio": 4.8,
+                "servicios_ofrecidos": [
+                    "SERVICIO_PASEO",
+                    "SERVICIO_ALOJAMIENTO",
+                    "SERVICIO_BANO"
+                ],
+                "horario_disponible": {
+                    "dias": [
+                        "LUN",
+                        "MIE",
+                        "VIE"
+                    ],
+                    "horas": "08:00 - 18:00"
+                }
+            },
+            "verificado": true,
+            "created_at": "2023-10-01T10:00:00Z",
+            "updated_at": "2023-10-05T12:00:00Z"
+        }
+    ],
+    "services": [
+        {
+            "_id": "SERVICIO_PASEO",
+            "nombre": "Paseo de Mascotas",
+            "descripcion_corta": "Ejercicios y caminatas seguras al aire libre, con seguimiento GPS.",
+            "imagen_url": "https://bucket.s3.../img_paseo.jpg",
+            "tarifa_base": 15.00,
+            "creado_por_admin": true
+        },
+        {
+            "_id": "SERVICIO_ALOJAMIENTO",
+            "nombre": "Alojamiento Nocturno",
+            "descripcion_corta": "Cuidado nocturno en el hogar del cuidador o del dueño.",
+            "imagen_url": "https://bucket.s3.../img_alojamiento.jpg",
+            "tarifa_base": 40.00,
+            "creado_por_admin": true
+        },
+        {
+            "_id": "SERVICIO_ENTRENAMIENTO",
+            "nombre": "Entrenamiento Básico",
+            "descripcion_corta": "Sesiones para obediencia básica (sentarse, quedarse, venir).",
+            "imagen_url": "https://bucket.s3.../img_entrenamiento.jpg",
+            "tarifa_base": 25.00,
+            "creado_por_admin": true
+        },
+        {
+            "_id": "SERVICIO_BANO",
+            "nombre": "Baño y Grooming",
+            "descripcion_corta": "Servicio de limpieza y acicalamiento completo.",
+            "imagen_url": "https://bucket.s3.../img_bano.jpg",
+            "tarifa_base": 30.00,
+            "creado_por_admin": true
+        },
+        {
+            "_id": "SERVICIO_ALIMENTACION",
+            "nombre": "Visita para Alimentación",
+            "descripcion_corta": "Visita rápida para administrar alimentos y medicinas.",
+            "imagen_url": "https://bucket.s3.../img_alimentacion.jpg",
+            "tarifa_base": 10.00,
+            "creado_por_admin": true
+        }
+    ],
+    "pets": [
+        {
+            "_id": "pet_456",
+            "owner_id": "user_123",
+            "info_basica": {
+                "nombre": "Firulais",
+                "tipo": "Perro",
+                "raza": "Golden Retriever",
+                "genero": "M",
+                "tamano": "Grande",
+                "color": "Dorado",
+                "fecha_nacimiento": "2020-01-01",
+                "foto_principal": "https://...",
+                "descripcion": "Muy activo, necesita paseos largos."
+            },
+            "localizacion_actual": {
+                "type": "Point",
+                "coordinates": [
+                    -78.48,
+                    -0.20
+                ],
+                "timestamp": "2025-12-09T22:23:55Z"
+            },
+            "diario_actividad": [
+                {
+                    "fecha": "2023-10-25",
+                    "tipo": "Paseo",
+                    "duracion_min": 45,
+                    "calorias_quemadas": 250,
+                    "notas": "Corrió mucho en el parque"
+                }
+            ]
+        }
+    ],
+    "appointments": [
+        {
+            "_id": "cita_789",
+            "estado": "CONFIRMADA",
+            "cuidador": {
+                "_id": "user_999",
+                "nombre": "Maria Lopez",
+                "foto": "url_foto_maria",
+                "telefono": "+593...",
+                "email": "email@gmail.com"
+            },
+            "cliente": {
+                "_id": "user_123",
+                "nombre": "Juan Pérez",
+                "telefono": "+593...",
+                "direccion_recogida": "Av. Amazonas..."
+            },
+            "mascota": {
+                "_id": "pet_456",
+                "nombre": "Firulais",
+                "raza": "Golden",
+                "foto": "url_foto_firu"
+            },
+            "detalle": {
+                "fecha_inicio": "2023-11-01T09:00:00Z",
+                "fecha_fin": "2023-11-01T11:00:00Z",
+                "tipo_servicio": "Paseo",
+                "precio_acordado": 20,
+                "notas_cliente": "Cuidado con otros perros machos"
+            },
+            "reporte_final": {
+                "check_in": "2023-11-01T09:05:00Z",
+                "check_out": "2023-11-01T11:10:00Z",
+                "foto_evidencia": "url...",
+                "calificacion_cliente": 5
+            }
+        }
+    ]
+}
