@@ -2,38 +2,34 @@ import nodemailer from "nodemailer"
 import dotenv from "dotenv"
 dotenv.config()
 
-
-
 const transporter = nodemailer.createTransport({
-    service: "gmail",
     host: process.env.HOST_MAILTRAP,
-    port: process.env.PORT_MAILTRAP,
+    port: Number(process.env.PORT_MAILTRAP),
+    secure: true,
     auth: {
-    user: process.env.USER_MAILTRAP,
-    pass: process.env.PASS_MAILTRAP,
+        user: process.env.USER_MAILTRAP,
+        pass: process.env.PASS_MAILTRAP,
     },
 })
 
+// Verificar conexión con Gmail
+transporter.verify()
+    .then(() => console.log("🟢 Gmail SMTP conectado correctamente"))
+    .catch(err => console.error("🔴 Error SMTP Gmail:", err))
+
 /**
- * Función genérica para enviar correos
- * @param {string} to - Email del destinatario
- * @param {string} subject - Asunto del correo
- * @param {string} html - Contenido HTML del correo
+ * Enviar correo
  */
 const sendMail = async (to, subject, html) => {
+    const info = await transporter.sendMail({
+        from: `"PetConnect" <${process.env.USER_MAILTRAP}>`,
+        to,
+        subject,
+        html,
+    })
 
-    try {
-        const info = await transporter.sendMail({
-            from: '"PetConnect" <admin@PetConnect.com>',
-            to,
-            subject,
-            html,
-        })
-        console.log("✅ Email enviado:", info.messageId)
-
-    } catch (error) {
-        console.error("❌ Error enviando email:", error.message)
-    }
+    console.log("✅ Email enviado:", info.messageId)
+    return info
 }
 
 export default sendMail
