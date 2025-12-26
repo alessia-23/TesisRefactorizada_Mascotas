@@ -8,6 +8,7 @@ mongoose.set("strictQuery", true);
 const connection = async () => {
     try {
         await mongoose.connect(process.env.MONGODB_URI_ATLAS);
+        console.log("Base de datos conectada")
     } catch (error) {
         console.log("Error al conectar la base de datos:", error);
     }
