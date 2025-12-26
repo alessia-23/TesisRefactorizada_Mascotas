@@ -3,39 +3,23 @@ import { sendMailToRegister } from "../../../core/helpers/sendMail.js";
 import User from "../model/User.js";
 
 export const createUser = async (req, res) => {
-    try {
-        const { email, password, ...rest } = req.body;
-
-        const exists = await User.findOne({ email });
-        if (exists) {
-            return res.status(400).json({ message: "El email ya existe" });
-        }
-
-        const user = new User({
-            email,
-            password,
-            ...rest
-        });
-
-        const token = user.createToken();
-        await user.save();
-
-        sendMailToRegister(email, token)
-            .then(() => console.log("Correo enviado"))
-            .catch(err => console.error("Error enviando correo:", err.message));
-
-        return res.status(201).json({
-            message: "Usuario creado. Revisa tu correo para verificar la cuenta."
-        });
-
-    } catch (error) {
-        return res.status(500).json({
-            message: "Error al crear usuario",
-            error: error.message
-        });
+    const { email, password, ...rest } = req.body;
+    const exists = await User.findOne({ email });
+    if (exists) {
+        return res.status(400).json({ message: "El email ya existe" });
     }
+    const user = new User({
+        email,
+        password,
+        ...rest
+    });
+    const token = user.createToken();
+    await user.save();
+    await sendMailToRegister(email, token);
+    res.status(201).json({
+        message: "Usuario creado. Revisa tu correo para verificar la cuenta."
+    });
 };
-
 
 
 export const getUsers = async (req, res) => {
