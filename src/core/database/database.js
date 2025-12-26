@@ -5,12 +5,19 @@ dotenv.config();
 
 mongoose.set("strictQuery", true);
 
+let isConnected = false;
+
 const connection = async () => {
+    if (isConnected) return;
+
     try {
-        await mongoose.connect(process.env.MONGODB_URI_ATLAS);
-        console.log("Base de datos conectada")
+        const db = await mongoose.connect(process.env.MONGODB_URI_ATLAS);
+
+        isConnected = db.connections[0].readyState === 1;
+        console.log("✅ Base de datos conectada");
     } catch (error) {
-        console.log("Error al conectar la base de datos:", error);
+        console.error("❌ Error MongoDB:", error.message);
+        throw error;
     }
 };
 
