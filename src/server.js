@@ -12,7 +12,7 @@ const app = express()
 dotenv.config()
 
 // Permitir bodies JSON más grandes
-app.use(express.json({ limit: "10mb" })); 
+app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 // Middlewares
@@ -30,6 +30,8 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 })
 app.use("/api", UserRoutes);
+app.get("/", (req, res) => { res.send("Server ON"); });
+
 app.use("/api", AuthRoutes);
 app.use("/api", PetRoutes)
 
