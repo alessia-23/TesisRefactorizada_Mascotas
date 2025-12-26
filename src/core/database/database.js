@@ -1,21 +1,16 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-let cached = global.mongoose;
+dotenv.config();
 
-if (!cached) {
-    cached = global.mongoose = { conn: null, promise: null };
-}
+mongoose.set("strictQuery", true);
 
 const connection = async () => {
-    if (cached.conn) return cached.conn;
-
-    if (!cached.promise) {
-        cached.promise = mongoose.connect(process.env.MONGODB_URI_ATLAS)
-            .then(mongoose => mongoose);
+    try {
+        await mongoose.connect(process.env.MONGODB_URI_ATLAS);
+    } catch (error) {
+        console.log("Error al conectar la base de datos:", error);
     }
-
-    cached.conn = await cached.promise;
-    return cached.conn;
 };
 
 export default connection;
