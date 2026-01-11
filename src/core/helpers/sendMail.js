@@ -16,6 +16,25 @@ const sendMailToRegister = (userMail, token) => {
         `
     )
 }
+const sendMailToRegisterOWner = (userMail, password, name, token) => {
+    return sendMail(
+        userMail,
+        name + " ¡Bienvenido a PetConnect! 🐶🐱",
+        `
+            <h1>Confirma tu cuenta</h1>
+            <p>Hola 👋, gracias por unirte a <strong>PetConnect </strong>.</p>
+            <p>Haz clic en el siguiente enlace para confirmar tu cuenta y empezar a disfrutar de todas las funciones:</p>
+            <p>Tus credenciales son las siguientes</p>
+            <p>Usuario: ${userMail}</p>
+            <p>Contraseña: ${password}</p>
+            <a href="${process.env.URL_FRONTEND}confirm-email/${token}">
+                Confirmar mi cuenta
+            </a>
+            <hr>
+            <footer>El equipo de PetConnect  te da la más cordial bienvenida 💚.</footer>
+        `
+    )
+}
 
 const sendMailToRecoveryPassword = (userMail, token) => {
     return sendMail(
@@ -70,6 +89,7 @@ const sendMailToCuidador = (userMail, password) => {
 
 
 export {
+    sendMailToRegisterOWner,
     sendMailToRegister,
     sendMailToRecoveryPassword,
     sendMailChangePasswordConfirm,

@@ -21,15 +21,19 @@ transporter.verify()
  * Enviar correo
  */
 const sendMail = async (to, subject, html) => {
-    const info = await transporter.sendMail({
-        from: `"PetConnect" <${process.env.USER_MAILTRAP}>`,
-        to,
-        subject,
-        html,
-    })
+    try {
+        const info = await transporter.sendMail({
+            from: `"PetConnect" <${process.env.USER_MAILTRAP}>`,
+            to,
+            subject,
+            html,
+        })
 
-    console.log("✅ Email enviado:", info.messageId)
-    return info
+        console.log("✅ Email enviado:", info.messageId)
+        return info
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export default sendMail

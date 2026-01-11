@@ -1,21 +1,41 @@
-import {subirBase64Cloudinary} from "../../../core/helpers/cloudinary/uploadCloudinary.js"
-import { sendMailToRegister } from "../../../core/helpers/sendMail.js";
+import { sendMailToRegister, sendMailToRegisterOWner } from "../../../core/helpers/sendMail.js";
+import { subirBase64Cloudinary } from "../../../core/helpers/cloudinary/uploadCloudinary.js"
+import {generatePassword} from "../../../core/helpers/crypto/generatePassword.js"
 import User from "../model/User.js";
 
 export const createUser = async (req, res) => {
-    const { email, password, ...rest } = req.body;
+    const { email, roles, ...rest } = req.body;
+
     const exists = await User.findOne({ email });
     if (exists) {
         return res.status(400).json({ message: "El email ya existe" });
     }
+
+    // 🔐 Generar contraseña automáticamente
+    const generatedPassword = generatePassword();
+
     const user = new User({
         email,
-        password,
+        password: generatedPassword,
+        roles,
         ...rest
     });
+
     const token = user.createToken();
     await user.save();
-    await sendMailToRegister(email, token);
+
+    // 📧 Enviar correo según rol
+    if (roles?.includes("DUEÑO")) {
+        await sendMailToRegisterOWner(
+            email,
+            generatedPassword, 
+            rest?.info_personal?.nombre || "Usuario",
+            token
+        );
+    } else {
+        await sendMailToRegister(email, token);
+    }
+
     res.status(201).json({
         message: "Usuario creado. Revisa tu correo para verificar la cuenta."
     });
@@ -94,7 +114,7 @@ export const updateInfoPersonal = async (req, res) => {
 
         await user.save();
 
-        res.status(200).json({ msg: "Información personal actualizada correctamente"});
+        res.status(200).json({ msg: "Información personal actualizada correctamente" });
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: "Error en el servidor" });
