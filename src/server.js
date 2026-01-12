@@ -14,10 +14,19 @@ dotenv.config()
 // Permitir bodies JSON más grandes
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+const allowedOrigins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "https://petconnect-uio.netlify.app"
+];
+
 
 // Middlewares
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: allowedOrigins,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+}))
 
 // Variables globales
 app.set('port', process.env.PORT || 3000)
