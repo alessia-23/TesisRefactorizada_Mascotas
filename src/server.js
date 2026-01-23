@@ -6,6 +6,7 @@ import cors from 'cors'
 import UserRoutes from "./services/user/routes/v1/UserRoutes.js"
 import AuthRoutes from "./services/auth/routes/v1/AuthRoutes.js"
 import PetRoutes from "./services/pet/routes/v1/PetRoutes.js"
+import CarerRoutes from "./services/carer/routes/v1/CarerRoutes.js"
 
 // Inicializaciones
 const app = express()
@@ -43,5 +44,6 @@ app.get("/", (req, res) => { res.send("Server ON"); });
 
 app.use("/api", AuthRoutes);
 app.use("/api", PetRoutes)
+app.use("/api", CarerRoutes)
 
 export default app
