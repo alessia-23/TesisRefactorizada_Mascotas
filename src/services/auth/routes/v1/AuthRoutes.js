@@ -1,5 +1,6 @@
 import { changePassword, checkTokenPassword, confirmMail, login, restorePassword, updatePassword } from "../../controller/AuthController.js"
 import { verificarTokenJWT } from "../../../../core/middleware/JWT.js"
+import { loginWithGoogle } from "../../google/controller/GoogleAuthController.js"
 import { Router } from "express"
 
 const router = Router()
@@ -12,8 +13,8 @@ router.post(url + "confirm/:token", confirmMail)
 router.post(url + "restore-password", restorePassword)
 router.post(url + "change-password/:token", changePassword)
 router.post(url + "restore-password/:token", checkTokenPassword)
+router.post(url + "google", loginWithGoogle);
 
 // Rutas Privadas
 router.post(url + "update-password/:id", verificarTokenJWT(["ADMINISTRADOR", "DUEÑO", "CUIDADOR"]), updatePassword);
-
 export default router
