@@ -1,16 +1,14 @@
 import cloudinary from 'cloudinary'
 import express from 'express'
-import dotenv from 'dotenv'
 import cors from 'cors'
 
+import AppointmentRoutes from "./services/appointments/routes/v1/AppointmentRoutes.js"
+import CarerRoutes from "./services/carer/routes/v1/CarerRoutes.js"
 import UserRoutes from "./services/user/routes/v1/UserRoutes.js"
 import AuthRoutes from "./services/auth/routes/v1/AuthRoutes.js"
 import PetRoutes from "./services/pet/routes/v1/PetRoutes.js"
-import CarerRoutes from "./services/carer/routes/v1/CarerRoutes.js"
 
-// Inicializaciones
 const app = express()
-dotenv.config()
 
 // Permitir bodies JSON más grandes
 app.use(express.json({ limit: "10mb" }));
@@ -22,7 +20,6 @@ const allowedOrigins = [
 ];
 
 
-// Middlewares
 app.use(express.json())
 app.use(cors({
     origin: allowedOrigins,
@@ -45,5 +42,6 @@ app.get("/", (req, res) => { res.send("Server ON"); });
 app.use("/api", AuthRoutes);
 app.use("/api", PetRoutes)
 app.use("/api", CarerRoutes)
+app.use("/api", AppointmentRoutes)
 
 export default app
