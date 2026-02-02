@@ -24,7 +24,9 @@
     "module-alias": "^2.2.3",
     "mongoose": "^8.20.0",
     "nodemailer": "^7.0.10",
-    "socket.io": "^4.8.1",
-    "stripe": "^19.3.1"
+    "socket.io": "^4.8.3",
+    "stripe": "^19.3.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   }
 }

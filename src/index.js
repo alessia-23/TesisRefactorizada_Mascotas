@@ -1,10 +1,10 @@
-import app from "./server.js";
+import { app, server } from "./server.js";
 import connection from "./core/database/database.js";
 
 (async () => {
     try {
         await connection();
-        app.listen(app.get("port"), () => {
+        server.listen(app.get("port"), () => {
             console.log(
                 `Api de PetConect levantada y ejecutandose en: http://localhost:${app.get("port")}`
             );
