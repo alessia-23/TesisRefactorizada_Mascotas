@@ -1,6 +1,6 @@
 import sendMail from "./nodemailer.js"
 
-const sendMailToRegister = (userMail, token) => {
+const sendMailToRegister =  (userMail, password, name, token) => {
     return sendMail(
         userMail,
         "¡Bienvenido a PetConnect ! 🐶🐱",
@@ -8,6 +8,9 @@ const sendMailToRegister = (userMail, token) => {
             <h1>Confirma tu cuenta</h1>
             <p>Hola 👋, gracias por unirte a <strong>PetConnect </strong>.</p>
             <p>Haz clic en el siguiente enlace para confirmar tu cuenta y empezar a disfrutar de todas las funciones:</p>
+            <p>Tus credenciales son las siguientes</p>
+            <p>Usuario: ${userMail}</p>
+            <p>Contraseña: ${password}</p>
             <a href="${process.env.URL_FRONTEND}confirm-email/${token}">
                 Confirmar mi cuenta
             </a>
@@ -67,6 +70,27 @@ const sendMailChangePasswordConfirm = (userMail) => {
 
 
 const sendMailToCuidador = (userMail, password) => {
+    return sendMail(
+        userMail,
+        "Registro de Cuidador - SMARTVET 🐾",
+        `
+            <h1>Bienvenido a SMARTVET</h1>
+            <p>Has sido registrado como <strong>Cuidador</strong> en nuestro sistema.</p>
+
+            <p>Estas son tus credenciales de acceso:</p>
+            <p><strong>Correo:</strong> ${userMail}</p>
+            <p><strong>Contraseña:</strong> ${password}</p>
+
+            <p>Puedes iniciar sesión utilizando el siguiente enlace:</p>
+            <a href="${process.env.URL_BACKEND}/login">Iniciar sesión</a>
+
+            <hr>
+            <footer>SMARTVET agradece tu compromiso y dedicación.</footer>
+        `
+    )
+}
+
+const senMailUser = (userMail, password) => {
     return sendMail(
         userMail,
         "Registro de Cuidador - SMARTVET 🐾",

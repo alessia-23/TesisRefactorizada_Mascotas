@@ -33,14 +33,14 @@ export const createUser = async (req, res) => {
             token
         );
     } else {
-        await sendMailToRegister(email, token);
+        console.log("Enviando correo de registro para rol diferente a DUEÑO");
+        await sendMailToRegister(email, generatedPassword, rest?.info_personal?.nombre || "Usuario", token);
     }
 
     res.status(201).json({
         message: "Usuario creado. Revisa tu correo para verificar la cuenta."
     });
 };
-
 
 export const getUsers = async (req, res) => {
     try {
@@ -54,11 +54,9 @@ export const getUsers = async (req, res) => {
 export const getUserById = async (req, res) => {
     try {
         const user = await User.findById(req.params.id).select("-password");
-
         if (!user) {
             return res.status(404).json({ message: "Usuario no encontrado" });
         }
-
         res.json(user);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -72,11 +70,9 @@ export const updateUser = async (req, res) => {
             req.body,
             { new: true }
         ).select("-password");
-
         if (!user) {
             return res.status(404).json({ message: "Usuario no encontrado" });
         }
-
         res.json(user);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -86,11 +82,9 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
     try {
         const user = await User.findByIdAndDelete(req.params.id);
-
         if (!user) {
             return res.status(404).json({ message: "Usuario no encontrado" });
         }
-
         res.json({ message: "Usuario eliminado correctamente" });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -100,20 +94,16 @@ export const deleteUser = async (req, res) => {
 export const updateInfoPersonal = async (req, res) => {
     try {
         const { nombre, apellido, telefono, fecha_nacimiento, direccion_principal } = req.body;
-
         const user = await User.findById(req.usuario._id);
         if (!user) {
             return res.status(404).json({ msg: "Usuario no encontrado" });
         }
-
         if (nombre) user.info_personal.nombre = nombre;
         if (apellido) user.info_personal.apellido = apellido;
         if (telefono) user.info_personal.telefono = telefono;
         if (fecha_nacimiento) user.info_personal.fecha_nacimiento = fecha_nacimiento;
         if (direccion_principal) user.info_personal.direccion_principal = direccion_principal;
-
         await user.save();
-
         res.status(200).json({ msg: "Información personal actualizada correctamente" });
     } catch (error) {
         console.error(error);
