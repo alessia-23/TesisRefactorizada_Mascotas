@@ -1,6 +1,6 @@
 import { sendMailToRegister, sendMailToRegisterOWner } from "../../../core/helpers/sendMail.js";
 import { subirBase64Cloudinary } from "../../../core/helpers/cloudinary/uploadCloudinary.js"
-import {generatePassword} from "../../../core/helpers/crypto/generatePassword.js"
+import { generatePassword } from "../../../core/helpers/crypto/generatePassword.js"
 import User from "../model/User.js";
 
 export const createUser = async (req, res) => {
@@ -28,7 +28,7 @@ export const createUser = async (req, res) => {
     if (roles?.includes("DUEÑO")) {
         await sendMailToRegisterOWner(
             email,
-            generatedPassword, 
+            generatedPassword,
             rest?.info_personal?.nombre || "Usuario",
             token
         );
@@ -114,24 +114,31 @@ export const updateInfoPersonal = async (req, res) => {
 export const updateAvatar = async (req, res) => {
     try {
         const { avatar_base64 } = req.body;
-
         if (!avatar_base64) {
             return res.status(400).json({ msg: "Debes enviar la imagen en Base64" });
         }
-
         // Subir a Cloudinary
         const urlAvatar = await subirBase64Cloudinary(avatar_base64, "Usuarios");
-
         // Actualizar usuario
         const user = await User.findById(req.usuario._id);
         if (!user) return res.status(404).json({ msg: "Usuario no encontrado" });
-
         user.info_personal.avatar_url = urlAvatar;
         await user.save();
-
         res.status(200).json({ msg: "Avatar actualizado correctamente" });
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: "Error al subir el avatar" });
+    }
+};
+
+export const getInfoPersonal = async (req, res) => {
+    try {
+        const user = await User.findById(req.usuario._id).select("info_personal email roles");
+        if (!user) {
+            return res.status(404).json({ msg: "Usuario no encontrado" });
+        } res.status(200).json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: "Error en el servidor" });
     }
 };
